@@ -7,7 +7,7 @@ import { PlusCircle } from 'lucide-react';
 import MatchCard, { MatchData } from '@/components/MatchCard';
 
 const DashboardPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [matches, setMatches] = useState<MatchData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -71,7 +71,7 @@ const DashboardPage: React.FC = () => {
   return (
     <div className="pb-20 pt-2 padel-container">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-1">Welcome, {user?.name || 'Player'}</h1>
+        <h1 className="text-2xl font-bold mb-1">Welcome, {profile?.name || user?.email?.split('@')[0] || 'Player'}</h1>
         <p className="text-muted-foreground">Your padel matches and scores</p>
       </div>
 

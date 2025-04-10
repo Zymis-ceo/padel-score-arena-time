@@ -86,6 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const fetchUserProfile = async (userId: string) => {
     try {
+      // Fix: Use the correct typing for the from() method
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
