@@ -49,14 +49,15 @@ const MatchScorePage: React.FC = () => {
         
         // Initialize score from existing match data if it exists
         if (foundMatch.score) {
+          const lastSetIndex = foundMatch.score.sets.length - 1;
           setCurrentTeam1Score({
-            games: foundMatch.score.sets[foundMatch.score.sets.length - 1]?.team1 || 0,
+            games: foundMatch.score.sets[lastSetIndex]?.team1 || 0,
             points: '0',
             sets: foundMatch.score.sets.map(set => set.team1),
           });
           
           setCurrentTeam2Score({
-            games: foundMatch.score.sets[foundMatch.score.sets.length - 1]?.team2 || 0,
+            games: foundMatch.score.sets[lastSetIndex]?.team2 || 0,
             points: '0',
             sets: foundMatch.score.sets.map(set => set.team2),
           });

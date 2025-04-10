@@ -51,13 +51,15 @@ const ScoreTracker: React.FC<ScoreTrackerProps> = ({
   const [setsToWin] = useState(2); // Best of 3 sets
   const [matchWinner, setMatchWinner] = useState<'team1' | 'team2' | null>(null);
 
+  // Initialize scores from props only once on mount
   useEffect(() => {
     if (initialScore) {
       setTeam1(initialScore.team1);
       setTeam2(initialScore.team2);
     }
-  }, [initialScore]);
+  }, []); // Empty dependency array to only run once on mount
 
+  // Update parent component when scores change
   useEffect(() => {
     if (onScoreUpdate) {
       onScoreUpdate(team1, team2);
