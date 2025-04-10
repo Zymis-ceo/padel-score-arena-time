@@ -12,6 +12,19 @@ const DashboardPage: React.FC = () => {
   const [matches, setMatches] = useState<MatchData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Function to determine player level based on score
+  const getPlayerLevel = (score: number): string => {
+    if (score >= 1726) return 'B+';
+    if (score >= 1600) return 'B';
+    if (score >= 1500) return 'B-';
+    if (score >= 1400) return 'C+';
+    if (score >= 1300) return 'C';
+    if (score >= 1200) return 'C-';
+    if (score >= 1100) return 'D';
+    if (score >= 1000) return 'D-';
+    return 'N/A'; // For scores below 1000
+  };
+
   useEffect(() => {
     // Simulate fetching data
     const storedMatches = localStorage.getItem('padelMatches');
@@ -71,7 +84,21 @@ const DashboardPage: React.FC = () => {
   return (
     <div className="pb-20 pt-2 padel-container">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-1">Welcome, {profile?.name || user?.email?.split('@')[0] || 'Player'}</h1>
+        <h1 className="text-2xl font-bold mb-1">
+          Welcome, {profile?.name || user?.email?.split('@')[0] || 'Player'}
+        </h1>
+        
+        {profile && (
+          <div className="flex items-center gap-2 mb-1">
+            <div className="bg-padel-primary text-white px-2 py-1 rounded text-sm font-medium">
+              Level: {getPlayerLevel(profile.score)}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Score: {profile.score}
+            </div>
+          </div>
+        )}
+        
         <p className="text-muted-foreground">Your padel matches and scores</p>
       </div>
 
