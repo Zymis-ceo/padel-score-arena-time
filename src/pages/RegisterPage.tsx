@@ -1,18 +1,24 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import AuthForm from '@/components/AuthForm';
 import { useAuth } from '@/context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 const RegisterPage: React.FC = () => {
   const { register, isAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  const handleRegister = (data: Record<string, string>) => {
-    register(data.name, data.email, data.password);
+  const handleRegister = async (data: Record<string, string>) => {
+    setIsLoading(true);
+    try {
+      await register(data.name, data.email, data.password);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -23,7 +29,7 @@ const RegisterPage: React.FC = () => {
           <p className="text-gray-600">Create your account to get started</p>
         </div>
         
-        <AuthForm isLogin={false} onSubmit={handleRegister} />
+        <AuthForm isLogin={false} onSubmit={handleRegister} isLoading={isLoading} />
       </div>
     </div>
   );

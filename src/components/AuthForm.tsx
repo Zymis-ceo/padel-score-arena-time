@@ -9,9 +9,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 interface AuthFormProps {
   isLogin: boolean;
   onSubmit: (data: Record<string, string>) => void;
+  isLoading?: boolean;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit }) => {
+const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, isLoading = false }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -51,6 +52,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit }) => {
                 onChange={handleChange}
                 required={!isLogin}
                 autoComplete="name"
+                disabled={isLoading}
               />
             </div>
           )}
@@ -66,6 +68,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit }) => {
               onChange={handleChange}
               required
               autoComplete="email"
+              disabled={isLoading}
             />
           </div>
 
@@ -87,12 +90,24 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit }) => {
               onChange={handleChange}
               required
               autoComplete={isLogin ? "current-password" : "new-password"}
+              disabled={isLoading}
             />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
-          <Button type="submit" className="w-full bg-padel-primary hover:bg-padel-secondary">
-            {isLogin ? 'Sign In' : 'Create Account'}
+          <Button 
+            type="submit" 
+            className="w-full bg-padel-primary hover:bg-padel-secondary"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                {isLogin ? 'Signing In...' : 'Creating Account...'}
+              </>
+            ) : (
+              isLogin ? 'Sign In' : 'Create Account'
+            )}
           </Button>
           <div className="text-center text-sm">
             {isLogin ? (

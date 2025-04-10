@@ -1,18 +1,24 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import AuthForm from '@/components/AuthForm';
 import { useAuth } from '@/context/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const { login, isAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  const handleLogin = (data: Record<string, string>) => {
-    login(data.email, data.password);
+  const handleLogin = async (data: Record<string, string>) => {
+    setIsLoading(true);
+    try {
+      await login(data.email, data.password);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -23,7 +29,7 @@ const LoginPage: React.FC = () => {
           <p className="text-gray-600">Track your padel matches and scores</p>
         </div>
         
-        <AuthForm isLogin={true} onSubmit={handleLogin} />
+        <AuthForm isLogin={true} onSubmit={handleLogin} isLoading={isLoading} />
       </div>
     </div>
   );
